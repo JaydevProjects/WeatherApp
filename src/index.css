@@ -9,7 +9,32 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body, html, #root {
+  height: 100%;
+  width: 100%;
+  min-height: 100%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.font-size-3rem {
+  font-size: 3rem;
+}
+
+.font-color-light-blue {
+  color: rgb(48, 128, 200);
+}
+
+.font-color-light-gray {
+  color: rgb(123, 152, 178);
+}
+
+@media (min-width: 1200px) {
+  .container {
+    padding: 0px 200px;
+  }
+}
+

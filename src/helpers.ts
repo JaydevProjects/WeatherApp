@@ -2,10 +2,12 @@ import axios from "axios";
 import moment from "moment";
 import { GLOBALS } from "./constants";
 
+//Function to call GET APIs 
 export const GET = (url: string, options?: any) => {
   return axios.get(url, options);
 };
 
+//Get hourly data from latitude and longitude from weather API
 export const getHourlyWeatherData = async (latLng: {
   lat: number;
   lng: number;
@@ -24,6 +26,7 @@ export const getHourlyWeatherData = async (latLng: {
   }
 };
 
+//Get current weather data from latitude and longitude from weather API
 export const getCurrentWeatherData = async (latLng: {
   lat: number;
   lng: number;
@@ -38,6 +41,7 @@ export const getCurrentWeatherData = async (latLng: {
   }
 };
 
+//Get latitude and longitude from location from weather API
 export const getLatLng = async (location: string) => {
   try {
     const response: any = await GET(
@@ -55,6 +59,7 @@ export const getLatLng = async (location: string) => {
   }
 };
 
+//Get location from latitude and longitude from weather API
 export const getLocationFromLatLng = async (latLng: {
   lat: number;
   lng: number;

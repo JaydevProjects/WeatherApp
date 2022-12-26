@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/build/bundle.48a3caf1.js",
+    "index.md": "/292e6be9eae61471a3c6.md",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "build/bundle.48a3caf1.js"
+  ]
+}

@@ -8,6 +8,9 @@ interface Props {
   onPlaceSelected: (place: any) => void;
 }
 
+/**
+ * This is a Autocomplete component that takes only one prop named onPlaceSelected
+ */
 export const Autocomplete: React.FC<Props> = React.memo(
   ({ onPlaceSelected }: Props) => {
     const { placePredictions, getPlacePredictions, isPlacePredictionsLoading } =
@@ -18,6 +21,7 @@ export const Autocomplete: React.FC<Props> = React.memo(
     const [selectedPlace, setSelectedPlace] = useState<any>("");
     const [hideMenu, setHideMenu] = useState<boolean>(true);
 
+    //On click of address get the value
     const onClickAddress = async (val: any) => {
       setSelectedPlace(val);
       onPlaceSelected(val);
@@ -25,6 +29,7 @@ export const Autocomplete: React.FC<Props> = React.memo(
       setHideMenu(true);
     };
 
+    //On change of address get the value
     const onChangeAddress = async (
       evt: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
     ) => {
@@ -40,6 +45,7 @@ export const Autocomplete: React.FC<Props> = React.memo(
           type="text"
           id="location-input"
           value={value}
+          className="glass bg-transparent"
           placeholder="Enter location here..."
           onChange={onChangeAddress}
           onFocus={() => {

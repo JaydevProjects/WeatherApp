@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Row from "react-bootstrap/Row";
+import { Col } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Spinner from "react-bootstrap/Spinner";
 import { Autocomplete } from "./components/AutoComplete";
@@ -26,6 +27,7 @@ export const App = () => {
     getBrowserPosition();
   }, []);
 
+  //Get current location (latitude and longitude) from browser
   const getBrowserPosition = async () => {
     setLoading(true);
     await navigator.geolocation.getCurrentPosition(
@@ -42,6 +44,7 @@ export const App = () => {
     );
   };
 
+  //Get current weather data along with hourly data from latitude & longitude
   const getWeatherData = async (
     latLng: { lat: number; lng: number },
     isLocation = false
@@ -59,14 +62,13 @@ export const App = () => {
       if (!location) {
         showError(true);
       }
-      const convertedName = `${location?.name || ""}, ${
-        location?.state || ""
-      }, ${location?.country || ""}`;
+      const convertedName = `${location?.name || ""}`;
       setLocationName(convertedName);
     }
     setLoading(false);
   };
 
+  //Get latitude and longitude according to selected location
   const getData = async (selected: string) => {
     setLoading(true);
     setLocationName(selected);
@@ -78,45 +80,57 @@ export const App = () => {
   };
 
   return (
-    <Container>
-      {error && (
-        <Alert className="mb-0 mt-2" variant="danger">
-          An error occured or search results not found. Please try again.
-        </Alert>
-      )}
-      <Row className="w-100 mx-0 mt-2">
-        <Row
-          className={`px-3 pt-4 mx-0 bg-image border rounded d-flex flex-column ${
-            !loading ? "justify-content-start" : "justify-content-center"
-          } align-items-center minHeight`}
-          style={{ backgroundImage: `url(${weatherIcon})` }}
-        >
+    <div
+      className="w-100 h-100 bg-image overflow-auto"
+      style={{
+        backgroundImage: `url(${weatherIcon})`,
+      }}
+    >
+      <Container className="h-100">
+        {error && (
+          <Alert className="mb-0 mt-2" variant="danger">
+            An error occured or search results not found. Please try again.
+          </Alert>
+        )}
+        <div className="w-100 h-100">
           {!loading ? (
             <>
-              <Autocomplete
-                onPlaceSelected={(place) => {
-                  getData(place?.description);
-                }}
-              />
-              <Row className="mt-3">
-                <CurrentWeather
-                  data={{ ...currentData, locationName: locationName }}
-                />
+              <Row className="mt-4 mx-0">
+                <Col md={12} className="px-0">
+                  <Autocomplete
+                    onPlaceSelected={(place) => {
+                      getData(place?.description);
+                    }}
+                  />
+                </Col>
               </Row>
-              <Row className="mt-3 px-0">
-                {hourlyData?.map((val: any, index: number) => (
-                  <HourlyWeather key={`hourly-data-${index}`} data={val} />
-                ))}
-              </Row>
+              {!error && (
+                <>
+                  <div className="mt-4 w-100">
+                    <CurrentWeather
+                      data={{ ...currentData, locationName: locationName }}
+                    />
+                  </div>
+                  <Row className="mt-4 glass border justify-content-evenly align-items-center mx-0">
+                    <h5 className="text-muted mt-2 ms-3">Extended Forecast</h5>
+                    {hourlyData?.map((val: any, index: number) => (
+                      <HourlyWeather
+                        key={`hourly-data-${index}`}
+                        data={val}
+                      />
+                    ))}
+                  </Row>
+                </>
+              )}
             </>
           ) : (
-            <div className="d-flex flex-column justify-content-start align-items-center">
+            <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
               <Spinner className="spinner-loading" />
               <h5 className="mt-2">Loading...</h5>
             </div>
           )}
-        </Row>
-      </Row>
-    </Container>
+        </div>
+      </Container>
+    </div>
   );
-}
+};
